@@ -1,4 +1,5 @@
 import 'react-markdown-editor-lite/lib/index.css';
+import Spinner from './Spinner';
 
 export default function Blog() {
   return (
@@ -30,6 +31,19 @@ export default function Blog() {
             <option value="MongoDB">MongoDB</option>
           </select>
         </div>
+
+        {/* Blog Image */}
+        <div className="w-100 flex flex-col flex-left mb-2">
+          <div className="w-100">
+            <label htmlFor="images">Images</label>
+            <input type="file" id="fileInput" className="mt-1" accept="image/*" multiple />
+          </div>
+          <div className="w-100 flex flex-left mt-1">
+            <Spinner />
+          </div>
+        </div>
+
+        {/* Image Preview and image sortable */}
       </form>
     </>
   );
