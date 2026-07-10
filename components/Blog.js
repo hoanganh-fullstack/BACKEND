@@ -1,3 +1,4 @@
+import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Spinner from './Spinner';
 
@@ -44,6 +45,13 @@ export default function Blog() {
         </div>
 
         {/* Image Preview and image sortable */}
+        {/* pending */}
+
+        {/* markdown description */}
+        <div className="description w-100 flex flex-col flex-left mb-2">
+          <label htmlFor="description">Blog Content</label>
+          <MarkdownEditor />
+        </div>
       </form>
     </>
   );
