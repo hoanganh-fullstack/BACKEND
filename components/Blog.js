@@ -1,28 +1,83 @@
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 import ReactMarkdown from 'react-markdown';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Spinner from './Spinner';
 
-export default function Blog() {
+export default function Blog({ _id }) {
+  const [redirect, setRedirect] = useState(false);
+  const router = useRouter();
+
+  const [title, setTitle] = useState('');
+  const [slug, setslug] = useState('');
+  const [images, setimages] = useState([]);
+  const [description, setdescription] = useState('');
+  const [blogcategory, setblogcategory] = useState([]);
+  const [tags, settags] = useState([]);
+  const [status, setstatus] = useState('');
+
+  // for images uploading
+  const [isUploading, setIsUploading] = useState(false);
+  const uploadImagesQueue = [];
+
+  async function createBlog(ev) {
+    ev.preventDefault();
+
+    const data = { title, slug, images, description, blogcategory, tags, status };
+
+    if (_id) {
+      await axios.put('/api/blogs', { ...data, _id });
+      toast.success('Data updated');
+    } else {
+      await axios.post('/api/blogs', data);
+      toast.success('Blog created');
+    }
+
+    setRedirect(true);
+  }
+
+  // for slug url
+  const handleSlugChange = (ev) => {
+    const inputValue = ev.target.value;
+    const newSlug = inputValue.replace(/\s+/g, '-'); // replace spaces with hyphens
+
+    setslug(newSlug);
+  };
+
   return (
     <>
-      <form className="addWebsiteform">
+      <form className="addWebsiteform" onSubmit={createBlog}>
         {/* Blog Title */}
         <div className="w-100 flex flex-col flex-left mb-2">
           <label htmlFor="title">Title</label>
-          <input type="text" id="title" placeholder="Enter small title" />
+          <input
+            type="text"
+            id="title"
+            placeholder="Enter small title"
+            value={title}
+            onChange={(ev) => setTitle(ev.target.value)}
+          />
         </div>
 
         {/* Blog Slug URL */}
         <div className="w-100 flex flex-col flex-left mb-2">
           <label htmlFor="slug">Slug</label>
-          <input type="text" id="slug" placeholder="Enter slug URL" />
+          <input type="text" id="slug" placeholder="Enter slug URL" value={slug} onChange={handleSlugChange} />
         </div>
 
         {/* Blog Category */}
         <div className="w-100 flex flex-col flex-left mb-2">
           <label htmlFor="category">Select Category</label>
-          <select name="category" id="category" multiple>
+          <select
+            onChange={(e) => setblogcategory(Array.from(e.target.selectedOptions, (option) => option.value))}
+            value={blogcategory}
+            name="category"
+            id="category"
+            multiple
+          >
             <option value="Java">Java</option>
             <option value="Node JS">Node JS</option>
             <option value="React JS">React JS</option>
@@ -52,6 +107,8 @@ export default function Blog() {
         <div className="description w-100 flex flex-col flex-left mb-2">
           <label htmlFor="description">Blog Content</label>
           <MarkdownEditor
+            value={description}
+            onChange={(ev) => setdescription(ev.text)}
             style={{ width: '100%', height: '400px' }} // you can adjust the height as needed
             renderHTML={(text) => (
               <ReactMarkdown
@@ -94,7 +151,13 @@ export default function Blog() {
         {/* tegs */}
         <div className="description w-100 flex flex-col flex-left mb-2">
           <label htmlFor="tags">Tags</label>
-          <select name="tags" id="tags" multiple>
+          <select
+            onChange={(e) => settags(Array.from(e.target.selectedOptions, (option) => option.value))}
+            value={tags}
+            name="tags"
+            id="tags"
+            multiple
+          >
             <option value="html">html</option>
             <option value="javascript">javascript</option>
             <option value="css">css</option>
@@ -108,7 +171,7 @@ export default function Blog() {
         {/* blog status */}
         <div className="description w-100 flex flex-col flex-left mb-2">
           <label htmlFor="status">Status</label>
-          <select name="status" id="status">
+          <select onChange={(ev) => setstatus(ev.target.value)} value={status} name="status" id="status">
             <option value="">No Select</option>
             <option value="draft">Draft</option>
             <option value="publish">Publish</option>
@@ -116,7 +179,7 @@ export default function Blog() {
         </div>
 
         <div className="w-100 mb-1">
-          <button type='submit' className='w-100 addwebbtn flex-center'>
+          <button type="submit" className="w-100 addwebbtn flex-center">
             Save Blog
           </button>
         </div>
