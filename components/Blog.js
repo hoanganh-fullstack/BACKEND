@@ -2,9 +2,11 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { MdDelete } from 'react-icons/md';
 import ReactMarkdown from 'react-markdown';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
+import { ReactSortable } from 'react-sortablejs';
 import Spinner from './Spinner';
 
 export default function Blog({ _id }) {
@@ -26,6 +28,10 @@ export default function Blog({ _id }) {
   async function createBlog(ev) {
     ev.preventDefault();
 
+    if (isUploading) {
+      await Promise.all(uploadImagesQueue);
+    }
+
     const data = { title, slug, images, description, blogcategory, tags, status };
 
     if (_id) {
@@ -35,8 +41,50 @@ export default function Blog({ _id }) {
       await axios.post('/api/blogs', data);
       toast.success('Blog created');
     }
-
     setRedirect(true);
+  }
+
+  async function uploadImages(ev) {
+    const files = ev.target?.files;
+    if (files?.length > 0) {
+      setIsUploading(true);
+
+      for (const file of files) {
+        const data = new FormData();
+        data.append('file', file);
+
+        // use the axios.post method and push the promise to the queue
+        uploadImagesQueue.push(
+          axios.post('/api/upload', data).then((res) => {
+            setimages((oldImages) => [...oldImages, ...res.data.links]);
+          })
+        );
+      }
+
+      // wait for all images to finish uploading
+      await Promise.all(uploadImagesQueue);
+
+      setIsUploading(false);
+      toast.success('Images Uploaded');
+    } else {
+      toast.error('An error occurred!');
+    }
+  }
+
+  if (redirect) {
+    router.push('/blogs');
+    return null;
+  }
+
+  function updateImagesOrder(images) {
+    setimages(images);
+  }
+
+  function handleDeleteImage(index) {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setimages(updatedImages);
+    toast.success('Images deleted successfully')
   }
 
   // for slug url
@@ -93,15 +141,37 @@ export default function Blog({ _id }) {
         <div className="w-100 flex flex-col flex-left mb-2">
           <div className="w-100">
             <label htmlFor="images">Images</label>
-            <input type="file" id="fileInput" className="mt-1" accept="image/*" multiple />
+            <input type="file" id="fileInput" className="mt-1" accept="image/*" multiple onChange={uploadImages} />
           </div>
           <div className="w-100 flex flex-left mt-1">
-            <Spinner />
+            {/* <Spinner /> */}
+            {isUploading && <Spinner />}
           </div>
         </div>
 
-        {/* Image Preview and image sortable */}
+        {/* Image Preview and image sortable with delete image */}
         {/* pending */}
+        {isUploading && (
+          <div className="flex">
+            <ReactSortable
+              list={Array.isArray(images) ? images : []}
+              setList={updateImagesOrder}
+              animation={200}
+              className="flex gap-1"
+            >
+              {images?.map((link, index) => (
+                <div key={link} className="uploadedimg">
+                  <img src={link} alt="image" className="object-cover" />
+                  <div className="deleteimg">
+                    <button onClick={() => handleDeleteImage(index)}>
+                      <MdDelete />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </ReactSortable>
+          </div>
+        )}
 
         {/* markdown description */}
         <div className="description w-100 flex flex-col flex-left mb-2">
