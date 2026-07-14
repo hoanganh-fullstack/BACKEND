@@ -122,6 +122,7 @@ export default function Home() {
 
         {/* Year Overview */}
         <div className="year_overview flex flex-sb">
+          {/* Left Dashboard */}
           <div className="leftyearoverview">
             <div className="flex flex-sb">
               <h3>Year Overview</h3>
@@ -142,9 +143,61 @@ export default function Home() {
             <Bar data={data} options={options} />
           </div>
 
-          
+          {/* Right Dashboard */}
+          <div className="right_salescont">
+            <div>
+              <h3>Blogs By Category</h3>
+              <ul className="creative-dots">
+                <li className="big-dot"></li>
+                <li className="semi-big-dot"></li>
+                <li className="medium-dot"></li>
+                <li className="semi-medium-dot"></li>
+                <li className="semi-small-dot"></li>
+                <li className="small-dot"></li>
+              </ul>
+            </div>
+            <div className="blogscategory flex flex-center">
+              <table>
+                <thead>
+                  <tr>
+                    <td className="text-center">Topics</td>
+                    <td className="text-center">Data</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="text-center">Next JS</td>
+                    <td className="text-center">
+                      {blogsData.filter((dat) => dat.blogcategory[0] === 'Next JS').length}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">Nest JS</td>
+                    <td className="text-center">
+                      {blogsData.filter((dat) => dat.blogcategory[0] === 'Nest JS').length}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">Node JS</td>
+                    <td className="text-center">
+                      {blogsData.filter((dat) => dat.blogcategory[0] === 'Node JS').length}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">React JS</td>
+                    <td className="text-center">
+                      {blogsData.filter((dat) => dat.blogcategory[0] === 'React JS').length}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">Java</td>
+                    <td className="text-center">{blogsData.filter((dat) => dat.blogcategory[0] === 'Java').length}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-
       </div>
     </>
   );
