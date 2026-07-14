@@ -2,7 +2,10 @@ import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { FaBlog } from 'react-icons/fa6';
+import { GrGallery } from 'react-icons/gr';
 import { IoHome } from 'react-icons/io5';
+import { MdOutlineShoppingCart, MdWorkOutline } from 'react-icons/md';
 
 export default function Home() {
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -103,18 +106,46 @@ export default function Home() {
         {/* Dashboard Four Card */}
         <div className="topfourcards flex flex-sb">
           <div className="four_card">
+            <FaBlog
+              size={40}
+              style={{
+                position: 'relative',
+                bottom: '10px',
+              }}
+            />
             <h2>Total Blogs</h2>
             <span>{blogsData.filter((dat) => dat.status === 'publish').length}</span>
           </div>
           <div className="four_card">
+            <MdWorkOutline
+              size={40}
+              style={{
+                position: 'relative',
+                bottom: '10px',
+              }}
+            />
             <h2>Total Projects</h2>
             <span>5</span>
           </div>
           <div className="four_card">
+            <MdOutlineShoppingCart
+              size={40}
+              style={{
+                position: 'relative',
+                bottom: '10px',
+              }}
+            />
             <h2>Total Products</h2>
             <span>5</span>
           </div>
           <div className="four_card">
+            <GrGallery
+              size={40}
+              style={{
+                position: 'relative',
+                bottom: '10px',
+              }}
+            />
             <h2>Photos</h2>
             <span>5</span>
           </div>
