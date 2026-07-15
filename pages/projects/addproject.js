@@ -1,9 +1,14 @@
 import Project from "@/components/Project";
+import Head from "next/head";
 import { FaBlog } from 'react-icons/fa6';
 
 export default function Addproject() {
   return (
     <>
+      <Head>
+        <title> Add Projects</title>
+      </Head>
+
       <div className="addblogspage">
         <div className="titledashboard flex flex-sb">
           {/* title */}

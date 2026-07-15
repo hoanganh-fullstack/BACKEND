@@ -35,6 +35,7 @@ export default function DeleteProduct() {
       <Head>
         <title>Delete Project</title>
       </Head>
+
       <div className="blogpage">
         <div className="titledashboard flex flex-sb">
           <div>

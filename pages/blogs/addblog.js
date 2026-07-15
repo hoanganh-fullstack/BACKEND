@@ -1,9 +1,14 @@
 import Blog from '@/components/Blog';
+import Head from 'next/head';
 import { FaBlog } from 'react-icons/fa6';
 
 export default function Addblog() {
   return (
     <>
+      <Head>
+        <title> Add Blogs</title>
+      </Head>
+
       <div className="addblogspage">
         <div className="titledashboard flex flex-sb">
           {/* title */}
@@ -20,7 +25,7 @@ export default function Addblog() {
         </div>
         {/* Add Blogs */}
         <div className="blogsadd">
-          <Blog/>
+          <Blog />
         </div>
       </div>
     </>

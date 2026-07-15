@@ -1,5 +1,6 @@
 import Dataloading from '@/components/Dataloading';
 import useFetchData from '@/hooks/useFetchData';
+import Head from 'next/head';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaRegEdit } from 'react-icons/fa';
@@ -46,6 +47,10 @@ export default function draftprojects() {
   }
   return (
     <>
+      <Head>
+        <title> Draft Projects</title>
+      </Head>
+
       <div className="blogpage">
         <div className="titledashboard flex flex-sb">
           <div>

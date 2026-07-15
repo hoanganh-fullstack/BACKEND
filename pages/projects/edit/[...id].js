@@ -1,5 +1,6 @@
 import Project from '@/components/Project';
 import axios from 'axios';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaBlog } from 'react-icons/fa6';
@@ -22,6 +23,10 @@ export default function EditProject() {
 
   return (
     <>
+      <Head>
+        <title> Edit Project</title>
+      </Head>
+
       <div className="blogpage">
         <div className="titledashboard flex flex-sb">
           <div>

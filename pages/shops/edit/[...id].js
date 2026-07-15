@@ -25,6 +25,10 @@ export default function Editshops() {
 
   return (
     <>
+      <Head>
+        <title> Update Product</title>
+      </Head>
+
       <div className="blogpage">
         <div className="titledashboard flex flex-sb">
           <div>

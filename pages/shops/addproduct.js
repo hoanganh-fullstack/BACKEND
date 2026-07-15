@@ -1,9 +1,14 @@
 import Shop from '@/components/Shop';
+import Head from 'next/head';
 import { FaBlog } from 'react-icons/fa6';
 
 export default function Addproduct() {
   return (
     <>
+      <Head>
+        <title> Add Product</title>
+      </Head>
+
       <div className="addblogspage">
         <div className="titledashboard flex flex-sb">
           {/* title */}

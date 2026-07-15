@@ -109,9 +109,6 @@ export default function Shop({
 
   return (
     <>
-      <Head>
-        <title>Add Product</title>
-      </Head>
       <form className="addWebsiteform" onSubmit={createBlog}>
         {/* Blog Title */}
         <div className="w-100 flex flex-col flex-left mb-2">
